@@ -1,0 +1,102 @@
+#full-size {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  height: 100%;
+  width: 100%;
+  background: #4B4B4B;
+}
+
+.img {
+	height: auto;
+	width: 150px;
+  cursor:pointer;
+}
+.img-big {
+    background-color: #4B4B4B;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    border-color: #4B4B4B;
+    border-style: solid;
+    border-width: 55px;
+}
+.img-big img {
+    height: 100%;
+    width: auto;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.next {
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  left: 505px;
+  width: 300px;
+  height: 400px;
+  cursor:pointer;
+}
+
+.next:hover {
+  opacity: 1;
+}
+
+#next {
+  float: right;
+  margin-top: 150px;
+  width: 60px;
+  height: auto;
+}
+
+.prev {
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  right: 505px;
+  width: 300px;
+  height: 400px;
+  cursor:pointer;
+}
+
+.prev:hover {
+  opacity: 1;
+}
+
+#prev {
+  float: left;
+  margin-top: 150px;
+  width: 60px;
+  height: auto;
+}
+
+.checkbox {
+  color: #306ca0;
+}
+
+.download {
+  position: fixed;
+  width: auto;
+  height: auto;
+  top: 0px;
+}
+#download {
+  display: none;
+}
+a {
+  cursor: pointer;
+  text-decoration: none !important;
+
+}
+.div-img {
+  position: static;
+  height: auto;
+  width: 150px;
+  padding: 13px;
+  display: inline-table;
+}
