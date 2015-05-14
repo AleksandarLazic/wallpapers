@@ -25,10 +25,11 @@ if ($results) {
     while($obj = $results->fetchObject())
     {
     		
-    	echo "<div class='div-img'><img class='img' src='resource/imagesmall/".$obj->name."'></img></div>";    
+    	echo "<div class='div-img'><img class='img' src='resource/imagesmall/".$obj->name."'></img><div class='checkboxes'><label for='checkbox'><input type='checkbox'>P.F.D</label><a class='like'>Like</a><a class='dislike'>Dislike</a></div></div>";    
     }
 
 }
 unset($obj);
 
 ?>
+<!-- $('.div-img').append('<div class="checkbox"><label for="checkbox"><input type="checkbox">P.F.D</label><a class="like">Like</a><a class="dislike">Dislike</a></div>');  -->

@@ -17,7 +17,7 @@
 .img-big {
     background-color: #4B4B4B;
     margin: auto;
-    position: absolute;
+    position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
     border-color: #4B4B4B;
     border-style: solid;
@@ -34,60 +34,67 @@
 }
 
 .next {
-  opacity: 0;
   position: absolute;
   top: -50px;
-  left: 505px;
+  left: 80%;
   width: 300px;
   height: 400px;
   cursor:pointer;
 }
-
-.next:hover {
-  opacity: 1;
-}
-
 #next {
   float: right;
   margin-top: 150px;
   width: 60px;
   height: auto;
 }
-
 .prev {
-  opacity: 0;
   position: absolute;
   top: -50px;
-  right: 505px;
   width: 300px;
   height: 400px;
   cursor:pointer;
 }
-
-.prev:hover {
-  opacity: 1;
-}
-
 #prev {
   float: left;
   margin-top: 150px;
   width: 60px;
   height: auto;
 }
+.back {
+  position: absolute;
+  top: -50px;
+  left: 1120px;
+  cursor:pointer;
+  width: auto;
+  height: auto;
 
-.checkbox {
-  color: #306ca0;
 }
 
+
+#back {
+  float: right;
+  width: 60px;
+  height: auto;
+}
+
+.checkboxes {
+  color: #306ca0;
+  visibility: hidden;
+}
 .download {
   position: fixed;
   width: auto;
   height: auto;
   top: 0px;
+  left: 85%;
 }
 #download {
   display: none;
 }
+.img-thumbnail {
+  width: 100px;
+  height: auto;
+} 
 a {
   cursor: pointer;
   text-decoration: none !important;
@@ -100,3 +107,4 @@ a {
   padding: 13px;
   display: inline-table;
 }
+

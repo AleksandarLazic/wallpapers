@@ -1,51 +1,67 @@
-$( document ).ready(function() {
-
-  dispay();
-
-  
+$(document).ready(function() {
+  	dispay(); 
 })
+
 
 
 function dispay() {
  var images  = {};
  var clicked = [];
 
-
- $('.images').on('mouseenter','.div-img', function() {
+ $('.images').on('mouseover', '.div-img', function() {
  	$(".img").attr('id', function(i) {
  	  return +(i+0); 
  	});
- 		$(this).append('<div class="checkbox"><label for="checkbox"><input type="checkbox">P.F.D</label><a class="like">Like</a><a class="dislike">Dislike</a></div>');
- 		var thisImage = $(this).children().attr('src');
- 		var thisId	  =	$(this).children().attr('id');
- 		$('.div-img .like').on('click', function(e) {
- 			e.preventDefault();
- 			like(thisImage.replace('imagesmall', 'images'));
- 		});
- 		$('.div-img .dislike').on('click', function(e) {
- 			e.preventDefault();
- 			dislike(thisImage.replace('imagesmall', 'images'));
- 		});
- 		$('.div-img :input:checkbox').on('click', function() {
- 			var thisImageSrc =thisImage.replace('imagesmall', 'images');
- 			$('.download').append("<p class='readyForDownload' id="+thisId+">"+ thisImageSrc +"</p>");
-			$('#download').css("display", "block");
- 			
- 			var key = thisId;	
-			images[key] = {
-				src: thisImageSrc
-			}
-			clicked.push(images);
- 		});
- }); 
- $('.images').on('mouseleave','.div-img', function() {
- 		$(this).children("div").remove();
+ 	$('.div-img').attr('id', function(i) {
+ 	  return +(i+0);
+ 	});
+ 	$(this).children('.checkboxes').css('visibility', 'visible');
  });
+ $('.images').on('mouseleave', '.div-img', function() {
+ 	$(this).children('.checkboxes').css('visibility', 'hidden');
+ })
+if(clicked[0] != null && clicked[0][thisImage]) {
+	$(':input:checkbox').prop('checked', true);
+}else {
+	$(':input:checkbox').prop('checked', false);
+}
+
+$('.images').on('click', '.like', function() {
+	var parentCheckbox 	= $(this).parent();
+	var parentDivImg   	= parentCheckbox.parent();
+	var thisImage 	   	= parentDivImg.children().attr('src');	
+ 	like(thisImage.replace('imagesmall', 'images'));
+});
+
+$('.images').on('click', '.dislike', function() {
+	var parentCheckbox 	= $(this).parent();
+	var parentDivImg   	= parentCheckbox.parent();
+	var thisImage 	   	= parentDivImg.children().attr('src');	 
+	dislike(thisImage.replace('imagesmall', 'images')); 
+});
+
+$('.images').on('click', ':input:checkbox', function() {
+	var parentCheckbox 	= $(this).parent();
+	var parentDivImg   	= parentCheckbox.parent();
+	var parentImg 		= parentDivImg.parent();
+	var thisImage 	   	= parentImg.children().attr('src');
+	var thisImageSrc 	= thisImage.replace('imagesmall', 'images');
+	var thisId 			= parentImg.children().attr('id');
+	
+	$('.download').append("<div class='warehouse'><img class='img-thumbnail' id="+thisId+" src="+thisImage+"></img><a class='remove'>Remove</a></div>");
+	$('#download').css("display", "block");
+
+	var key = thisId;	
+	
+	images[key] = {
+		src: thisImageSrc
+	}
+	clicked.push(images);
+});
+
 
 
  $('.images').on("click", "img", function() { 	
-
-
  	currentImage = this.id;
 
 	var sImg 		= $(this).attr("src");	
@@ -69,7 +85,7 @@ function dispay() {
 
 $(':input:checkbox').on('click', function() {
 	var currentSrc = $(".img-responsive").attr('src');
-	$('.download').append("<p class='readyForDownload' id="+currentImage+">"+ currentSrc +"</p>");
+	$('.download').append("<div class='warehouse'><img class='img-thumbnail' id="+currentImage+" src="+ currentSrc +"></img><a class='remove'>Remove</a></div>");
 	$('#download').css("display", "block");
 	var key = currentImage;	
 	images[key] = {
@@ -77,11 +93,8 @@ $(':input:checkbox').on('click', function() {
 	}
 	clicked.push(images);
  });
-
-
-
 $('#download').on('click', function() {
-	$('.download p').empty();
+	$('.warehouse').remove();
 	$('#download').css("display", "none");
 	
 	var string = JSON.stringify(clicked[0]);
@@ -136,9 +149,18 @@ $('#download').on('click', function() {
 	}
 	http.send("obj=" + string);
 	$(':input:checkbox').prop('checked', false);
-	clicked = {};
+	delete clicked;
 });
-
+$('.download').on('click', '.remove', function(){
+	var warehouse  	= $(this).parent();
+	var imageForRemove = warehouse.children().attr('id');
+	var removeDiv  	= $(this).parent().remove();
+	delete clicked[0][imageForRemove];
+	console.log(warehouse);
+});
+if($('.download > .warehouse') == null) {
+	$('#download').css("display", "none");
+}
 $('.img-big').on("click", ".next", function() {
 	var allImgs  = $(".img").eq(++currentImage);
 	var img 	 = $('.img').attr('src')[currentImage];
@@ -161,6 +183,14 @@ $('.img-big').on("click", ".prev", function() {
 	}else {
 		$(':input:checkbox').prop('checked', false);
 	}
+});
+$('.img-big').on('click', '.back', function() {
+	$("#full-size").css("display", "none"); 
+	$('.img-big').css('display', 'none');
+	$('.img-responsive').attr('src', "");
+	$('.images').removeAttr('style');
+	$('.img').css({'cursor': 'pointer'});
+	$("body").css("overflow", "auto");
 });
 $(".like").on("click", function(e) {
 	e.preventDefault();
