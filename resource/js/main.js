@@ -1,15 +1,17 @@
 $(document).ready(function() {
-  	dispay();
-  	addId();
+	array();
+	addId();
   	mouseLeave();
   	ifIsClcikedLike();
   	ifIsClcikedDislike();
   	download();
+
 })
+function array(clicked) { //geting array clicked, and sending array to dispay function
+	dispay(clicked);	
+}
 
-
-function dispay() { // displaying image in full size 
-
+function dispay(clicked) { // displaying image in full size 
  $('.images').on("click", "img", function() { 	
  	currentImage = this.id;
 
@@ -37,7 +39,7 @@ $('.img-big').on("click", ".next", function() {  // next picutre in img-responsi
 	var img 	 = $('.img').attr('src')[currentImage];
 	var bImg 	 = $(".img-responsive").attr('id', currentImage)[0];	
 	bImg.src 	 = allImgs.attr("src").replace("imagesmall", "images");
-
+	
 	if(clicked[0] != null && clicked[0][currentImage]) {
 		$(':input:checkbox').prop('checked', true);
 	}else {
@@ -109,6 +111,7 @@ $('body').keyup(function(e) {  // keyup functions
 });
 
 }
+
 function like(img) {  // call ajax and insert in db files like
 	$.ajax({
 		type: "POST",
@@ -147,20 +150,21 @@ function mouseLeave() { // hidde chackboxes div
  	});
 }
 
-function checkIfCheckboxIsClicked() { // checking if checkbox is clicked on small img
-	if(clicked[0] != null && clicked[0][thisImage]) {
-		$(':input:checkbox').prop('checked', true);
-	}else {
-		$(':input:checkbox').prop('checked', false);
-	}
-}
+// function checkIfCheckboxIsClicked() { // checking if checkbox is clicked on small img
+// 	if(clicked[0] != null && clicked[0][thisImageBig]) {
+// 		$(':input:checkbox').prop('checked', true);
+// 	}else {
+// 		$(':input:checkbox').prop('checked', false);
+// 	}
+// }
 
 function ifIsClcikedLike() { // if clicled liked on small img
 	$('.images').on('click', '.like', function() {
 		var parentCheckbox 	= $(this).parent();
 		var parentDivImg   	= parentCheckbox.parent();
-		var thisImage 	   	= parentDivImg.children().attr('src');	
- 		like(thisImage.replace('imagesmall', 'images'));
+		var thisImage 	   	= parentDivImg.children().attr('src');
+		var thisImageBig	= thisImage.replace('imagesmall', 'images');	
+ 		like(thisImageBig);
 	});
 }
 
@@ -168,15 +172,17 @@ function ifIsClcikedDislike() { // if clicled dislike on small img
 	$('.images').on('click', '.dislike', function() {
 		var parentCheckbox 	= $(this).parent();
 		var parentDivImg   	= parentCheckbox.parent();
-		var thisImage 	   	= parentDivImg.children().attr('src');	 
-		dislike(thisImage.replace('imagesmall', 'images')); 
+		var thisImage 	   	= parentDivImg.children().attr('src');
+		var thisImageBig 	= thisImage.replace('imagesmall', 'images');	 
+		dislike(thisImageBig); 
 	});
 }
 
 function download() { // preparing picutere for download and dowloading images
+	
 	var images  = {};
  	var clicked = [];
-
+ 	
 	$('.images').on('click', ':input:checkbox', function() {  // geting img-small ID and SRC inserting to array
 		var parentCheckbox 	= $(this).parent();
 		var parentDivImg   	= parentCheckbox.parent();
@@ -193,15 +199,14 @@ function download() { // preparing picutere for download and dowloading images
 			src: thisImageSrc
 		}
 		clicked.push(images);
+		array(clicked);
 	});
 
 	$(':input:checkbox').on('click', function() { // geting img-responsive ID and SRC inserting to array
 	var currentSrc = $(".img-responsive").attr('src');
 	$('.download').append("<div class='warehouse'><img class='img-thumbnail' id="+currentImage+" src="+ currentSrc +"></img><a class='remove'>Remove</a></div>");
 	$('#download').css("display", "block");
-	if($('#download').data('clicked')) {
-		clicked = [];
-	}
+
 	var key = currentImage;	
 	images[key] = {
 		src: currentSrc
@@ -286,6 +291,8 @@ function removeImgFromWerehouse(clicked) {  // removing picutre form werehouse
 		$('#download').css("display", "none");
 	}
 }
+
+
 
 
 
