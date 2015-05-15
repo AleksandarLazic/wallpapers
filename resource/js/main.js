@@ -1,114 +1,112 @@
 $(document).ready(function() {
-	array();
+	dispay();	
 	addId();
   	mouseLeave();
   	ifIsClcikedLike();
   	ifIsClcikedDislike();
   	download();
+  	removeImgFromWerehouse();
+  	isWarehouseNull();
 
 })
-function array(clicked) { //geting array clicked, and sending array to dispay function
-	dispay(clicked);	
-}
 
-function dispay(clicked) { // displaying image in full size 
- $('.images').on("click", "img", function() { 	
- 	currentImage = this.id;
+function dispay() { // displaying image in full size 
+	$('.images').on("click", "img", function() {	
+	 	currentImage = this.id;
 
-	var sImg 		= $(this).attr("src");	
-	var replace 	= sImg.replace("imagesmall", "images"); 
-	var bImg 		= $(".img-responsive").attr('id', currentImage);
-	var divBig 		= $(".img-big");
-	var display 	= divBig.css("display", "block");
-	var fullSize	= $("#full-size").css("display", "block");
-	var src 		= bImg.attr("src", replace);
-	
-	if(display.css("display") == "block") {
-		$("body").css("overflow", "hidden");
-		$('.images').css({
-			'opacity': '0.6',
-			'filter': 'alpha(opacity=60)',
-			'cursor': 'default',
-		});
-		$('.img').css({'cursor': 'default'});
-	}	
- }); 
+		var sImg 		= $(this).attr("src");	
+		var replace 	= sImg.replace("imagesmall", "images"); 
+		var bImg 		= $(".img-responsive").attr('id', currentImage);
+		var divBig 		= $(".img-big");
+		var display 	= divBig.css("display", "block");
+		var fullSize	= $("#full-size").css("display", "block");
+		var src 		= bImg.attr("src", replace);
+		
+		if(display.css("display") == "block") {
+			$("body").css("overflow", "hidden");
+			$('.images').css({
+				'opacity': '0.6',
+				'filter': 'alpha(opacity=60)',
+				'cursor': 'default',
+			});
+			$('.img').css({'cursor': 'default'});
+		}	
+	}); 
+	$('.img-big').on("click", ".next", function() {  // next picutre in img-responsive
+		var allImgs  = $(".img").eq(++currentImage);
+		var img 	 = $('.img').attr('src')[currentImage];
+		var bImg 	 = $(".img-responsive").attr('id', currentImage)[0];	
+		bImg.src 	 = allImgs.attr("src").replace("imagesmall", "images");
+		
+		if(clicked[0] != null && clicked[0][currentImage]) {
+			$(':input:checkbox').prop('checked', true);
+		}else {
+			$(':input:checkbox').prop('checked', false);
+		}
+	});
+	$('.img-big').on("click", ".prev", function() {  // prev picutre in img-responsive
+		var allImgs = $(".img").eq(--currentImage); 
+		var bImg 	= $(".img-responsive").attr('id', currentImage)[0]; 
+		bImg.src 	= allImgs.attr("src").replace("imagesmall", "images");
 
-$('.img-big').on("click", ".next", function() {  // next picutre in img-responsive
-	var allImgs  = $(".img").eq(++currentImage);
-	var img 	 = $('.img').attr('src')[currentImage];
-	var bImg 	 = $(".img-responsive").attr('id', currentImage)[0];	
-	bImg.src 	 = allImgs.attr("src").replace("imagesmall", "images");
-	
-	if(clicked[0] != null && clicked[0][currentImage]) {
-		$(':input:checkbox').prop('checked', true);
-	}else {
-		$(':input:checkbox').prop('checked', false);
-	}
-});
-$('.img-big').on("click", ".prev", function() {  // prev picutre in img-responsive
-	var allImgs = $(".img").eq(--currentImage); 
-	var bImg 	= $(".img-responsive").attr('id', currentImage)[0]; 
-	bImg.src 	= allImgs.attr("src").replace("imagesmall", "images");
-
-	if(clicked[0] != null && clicked[0][currentImage]) {
-		$(':input:checkbox').prop('checked', true);
-	}else {
-		$(':input:checkbox').prop('checked', false);
-	}
-});
-$('.img-big').on('click', '.back', function() { // if clickd X 
-	$("#full-size").css("display", "none"); 
-	$('.img-big').css('display', 'none');
-	$('.img-responsive').attr('src', "");
-	$('.images').removeAttr('style');
-	$('.img').css({'cursor': 'pointer'});
-	$("body").css("overflow", "auto");
-});
-$(".like").on("click", function(e) { // img-responsive like
-	e.preventDefault();
-	var img = $('.img-responsive').attr('src');
-	like(img);
-});
-$(".dislike").on("click", function(e) { // img-responsive dislike
-	e.preventDefault();
-	var img = $('.img-responsive').attr('src');
-	dislike(img);
-	
-});
-$('body').keyup(function(e) {  // keyup functions
-	if($(".img-big").css("display") == "block") {  // next picutre in img-responsive
-		if(e.keyCode == 39) {
-			var allImgs  = $(".img").eq(++currentImage);
-			var img 	 = $('.img').attr('src')[currentImage];
-			var bImg 	 = $(".img-responsive").attr('id', currentImage)[0];	
-			bImg.src 	 = allImgs.attr("src").replace("imagesmall", "images");
-	
-			if(clicked[0] != null && clicked[0][currentImage]) {
-				$(':input:checkbox').prop('checked', true);
-			}else {
-				$(':input:checkbox').prop('checked', false);
-			}
-		} else if (e.keyCode == 37) { // prev picutre in img-responsive
-			var allImgs = $(".img").eq(--currentImage); 
-			var bImg 	= $(".img-responsive").attr('id', currentImage)[0]; 
-			bImg.src 	= allImgs.attr("src").replace("imagesmall", "images");
-	
-			if(clicked[0] != null && clicked[0][currentImage]) { 
-				$(':input:checkbox').prop('checked', true);
-			}else {
-				$(':input:checkbox').prop('checked', false);
-			}
-  		} else if (e.keyCode == 27) { // if clickd X 
-  			$("#full-size").css("display", "none"); 
-  			$('.img-big').css('display', 'none');
-  			$('.img-responsive').attr('src', "");
-  			$('.images').removeAttr('style');
-			$('.img').css({'cursor': 'pointer'});
-			$("body").css("overflow", "auto");
-  		}  
-	}
-});
+		if(clicked[0] != null && clicked[0][currentImage]) {
+			$(':input:checkbox').prop('checked', true);
+		}else {
+			$(':input:checkbox').prop('checked', false);
+		}
+	});
+	$('.img-big').on('click', '.back', function() { // if clickd X 
+		$("#full-size").css("display", "none"); 
+		$('.img-big').css('display', 'none');
+		$('.img-responsive').attr('src', "");
+		$('.images').removeAttr('style');
+		$('.img').css({'cursor': 'pointer'});
+		$("body").css("overflow", "auto");
+	});
+	$(".like").on("click", function(e) { // img-responsive like
+		e.preventDefault();
+		var img = $('.img-responsive').attr('src');
+		like(img);
+	});
+	$(".dislike").on("click", function(e) { // img-responsive dislike
+		e.preventDefault();
+		var img = $('.img-responsive').attr('src');
+		dislike(img);
+		
+	});
+	$('body').keyup(function(e) {  // keyup functions
+		if($(".img-big").css("display") == "block") {  // next picutre in img-responsive
+			if(e.keyCode == 39) {
+				var allImgs  = $(".img").eq(++currentImage);
+				var img 	 = $('.img').attr('src')[currentImage];
+				var bImg 	 = $(".img-responsive").attr('id', currentImage)[0];	
+				bImg.src 	 = allImgs.attr("src").replace("imagesmall", "images");
+		
+				if(clicked[0] != null && clicked[0][currentImage]) {
+					$(':input:checkbox').prop('checked', true);
+				}else {
+					$(':input:checkbox').prop('checked', false);
+				}
+			} else if (e.keyCode == 37) { // prev picutre in img-responsive
+				var allImgs = $(".img").eq(--currentImage); 
+				var bImg 	= $(".img-responsive").attr('id', currentImage)[0]; 
+				bImg.src 	= allImgs.attr("src").replace("imagesmall", "images");
+		
+				if(clicked[0] != null && clicked[0][currentImage]) { 
+					$(':input:checkbox').prop('checked', true);
+				}else {
+					$(':input:checkbox').prop('checked', false);
+				}
+	  		} else if (e.keyCode == 27) { // if clickd X 
+	  			$("#full-size").css("display", "none"); 
+	  			$('.img-big').css('display', 'none');
+	  			$('.img-responsive').attr('src', "");
+	  			$('.images').removeAttr('style');
+				$('.img').css({'cursor': 'pointer'});
+				$("body").css("overflow", "auto");
+	  		}  
+		}
+	});
 
 }
 
@@ -150,14 +148,6 @@ function mouseLeave() { // hidde chackboxes div
  	});
 }
 
-// function checkIfCheckboxIsClicked() { // checking if checkbox is clicked on small img
-// 	if(clicked[0] != null && clicked[0][thisImageBig]) {
-// 		$(':input:checkbox').prop('checked', true);
-// 	}else {
-// 		$(':input:checkbox').prop('checked', false);
-// 	}
-// }
-
 function ifIsClcikedLike() { // if clicled liked on small img
 	$('.images').on('click', '.like', function() {
 		var parentCheckbox 	= $(this).parent();
@@ -188,18 +178,19 @@ function download() { // preparing picutere for download and dowloading images
 		var parentDivImg   	= parentCheckbox.parent();
 		var parentImg 		= parentDivImg.parent();
 		var thisImage 	   	= parentImg.children().attr('src');
-		var thisImageSrc 	= thisImage.replace('imagesmall', 'images');
+		var thisImageSrc 	= thisImage.replace('imagesmall', 'images'); // replacing imagesmall whit images 
 		var thisId 			= parentImg.children().attr('id');
 		
 		$('.download').append("<div class='warehouse'><img class='img-thumbnail' id="+thisId+" src="+thisImage+"></img><a class='remove'>Remove</a></div>");
 		$('#download').css("display", "block");
-		var key = thisId;	
 		
+		var key = thisId;	
+
 		images[key] = {
 			src: thisImageSrc
 		}
 		clicked.push(images);
-		array(clicked);
+		console.log(clicked);		
 	});
 
 	$(':input:checkbox').on('click', function() { // geting img-responsive ID and SRC inserting to array
@@ -212,11 +203,10 @@ function download() { // preparing picutere for download and dowloading images
 		src: currentSrc
 	}
 	clicked.push(images);
-	console.log(clicked[0]);
-
 	});
 
-	removeImgFromWerehouse(clicked); //caling function to remove image form array and form div Werehouse
+	removeImgFromWerehouse(clicked); //inserting array to function
+
 
 	$('#download').on('click', function() { // sanding XMLHttpRequest for downloading picutes
 		$('.warehouse').remove();
@@ -274,9 +264,9 @@ function download() { // preparing picutere for download and dowloading images
 		}
 		http.send("obj=" + string);
 		$(':input:checkbox').prop('checked', false);
-		$(this).data('clicked', true);
-		clicked = [];
-		
+		//$(this).data('clicked', true); // seting on download button clicked
+		images = {};  // cleaning array afther download
+		clicked = []; // cleaning array afther download		
 	});
 }
 
@@ -286,13 +276,16 @@ function removeImgFromWerehouse(clicked) {  // removing picutre form werehouse
 		var imageForRemove = warehouse.children().attr('id');
 		var removeDiv  	= $(this).parent().remove();
 		delete clicked[0][imageForRemove];
+		console.log(clicked);
 	});
-	if($('.download > .warehouse') == null) { // if images dont exsist in werhouse hidde download button
+
+}
+
+function isWarehouseNull() {
+	if($('.download > .warehouse').length == 0) { // if images dont exsist in werhouse hidde download button
 		$('#download').css("display", "none");
 	}
 }
-
-
 
 
 
