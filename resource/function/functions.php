@@ -34,7 +34,7 @@ function dbFill($dbh) { //izlista sve stranice i sacuva src u db
 
 			$thread[] = file_get_contents(BASE_URL .$threadUrl);
 		}
-		// sece stranicu na <img>
+		// pretrazuje tag <img>
 		if (is_array($thread)) {
 			foreach ($thread as $thr) {
 				preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $thr, $result[]);

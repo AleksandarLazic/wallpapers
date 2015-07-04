@@ -32,4 +32,4 @@ if ($results) {
 unset($obj);
 
 ?>
-<!-- $('.div-img').append('<div class="checkbox"><label for="checkbox"><input type="checkbox">P.F.D</label><a class="like">Like</a><a class="dislike">Dislike</a></div>');  -->
+
