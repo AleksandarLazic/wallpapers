@@ -1,9 +1,9 @@
 <?php
 include_once("config.php");
 
-//dbFill($dbh);
-//getAllFromDb($dbh);
-//imageDel();
+dbFill($dbh);
+getAllFromDb($dbh);
+imageDel();
 insertDb($dbh);
 
 
