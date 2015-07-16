@@ -2,8 +2,8 @@
 include_once("config.php");
 
 //dbFill($dbh);
-getAllFromDb($dbh);
-imageDel();
+//getAllFromDb($dbh);
+//imageDel();
 insertDb($dbh);
 
 
@@ -125,7 +125,9 @@ function insertDb($dbh) {
 	$stmt = $dbh->prepare("CREATE TABLE IF NOT EXISTS files
 			(id INT ( 11 ) AUTO_INCREMENT PRIMARY KEY,
 			imageId INT ( 11 ),
-			name VARCHAR(100))");
+			name VARCHAR(100),
+			disliked INT ( 1 ) NOT NULL,
+			liked INT ( 1 ) NOT NULL)");
 	$stmt->execute();
 
 	$stmt = $dbh->prepare("INSERT INTO files (name) VALUE (:name)");

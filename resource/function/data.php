@@ -57,7 +57,9 @@ function dropTableFiles($dbh) {
 	$sql = "CREATE TABLE files(
 		id INT ( 11 ) AUTO_INCREMENT PRIMARY KEY,
 		imageId INT ( 11 ),
-		name VARCHAR (100));";
+		name VARCHAR (100 ),
+		disliked INT ( 1 ) NOT NULL,
+		liked INT ( 1 ) NOT NULL);";
 	$dbh->exec($sql);
 }
 
