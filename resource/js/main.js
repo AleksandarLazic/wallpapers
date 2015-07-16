@@ -217,7 +217,7 @@ function download() { // preparing picutere for download and dowloading images
 		var http = new XMLHttpRequest();
 		
 
-		http.open("POST", "check.php", true);
+		http.open("POST", "resource/function/check.php", true);
 		http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		http.responseType = 'blob';
 

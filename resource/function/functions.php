@@ -2,9 +2,9 @@
 include_once("config.php");
 
 //dbFill($dbh);
-//getAllFromDb($dbh);
-// imageDel();
-//insertDb($dbh);
+getAllFromDb($dbh);
+imageDel();
+insertDb($dbh);
 
 
 function dbFill($dbh) { //izlista sve stranice i sacuva src u db
@@ -53,6 +53,9 @@ function dbFill($dbh) { //izlista sve stranice i sacuva src u db
 				$link = str_ireplace($order, $replace, $data);
 				if ($link != null) { 
 
+					$stmt = $dbh->prepare("CREATE TABLE IF NOT EXISTS images (id INT ( 11 ) AUTO_INCREMENT PRIMARY KEY, src VARCHAR(100))");
+					$stmt->execute();
+
 
 					$stmt = $dbh->prepare("INSERT INTO images (src) VALUES (:src)");
 					$stmt->bindParam(':src', $link);
@@ -65,6 +68,11 @@ function dbFill($dbh) { //izlista sve stranice i sacuva src u db
 	
 }
 function getAllFromDb($dbh) {
+
+	if (!file_exists("../images")) { //cheking if folder Download exsist
+    	mkdir("../images", 0777, true);
+	}
+
 	$order = array("//i.4cdn.org/wg/", "s" );
 	$order_1 = array("//", "s");
 	$order_2 = array("//", "s", ".jpg");
@@ -72,7 +80,7 @@ function getAllFromDb($dbh) {
 
 	$replace = "";
 	$replace_1 = array( "", "", ".png");
-	$folder = 'C:/xampp/htdocs/wp/resource/images/';
+	$folder = '../images/';
 
 
 	$stmt = $dbh->prepare("SELECT src FROM images");
@@ -113,6 +121,12 @@ function imageDel() {
 function insertDb($dbh) {
 	$folder 	= "../images/";
 	$files 		= array_slice(scandir($folder), 2);
+
+	$stmt = $dbh->prepare("CREATE TABLE IF NOT EXISTS files
+			(id INT ( 11 ) AUTO_INCREMENT PRIMARY KEY,
+			imageId INT ( 11 ),
+			name VARCHAR(100))");
+	$stmt->execute();
 
 	$stmt = $dbh->prepare("INSERT INTO files (name) VALUE (:name)");
 	foreach($files as $file) {

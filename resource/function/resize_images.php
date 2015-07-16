@@ -2,6 +2,10 @@
 ini_set('max_execution_time', 1200);
 ini_set('memory_limit', '256M');
 
+if (!file_exists("../imagesmall/")) { //cheking if folder Download exsist
+    	mkdir("../imagesmall/", 0777, true);
+}
+
 $folder = "../images/";
 $folder_one = "../imagesmall/";
 $images = array_slice(scandir($folder), 2);
