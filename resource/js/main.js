@@ -189,8 +189,7 @@ function download() { // preparing picutere for download and dowloading images
 		images[key] = {
 			src: thisImageSrc
 		}
-		clicked.push(images);
-		console.log(clicked);		
+		clicked.push(images);		
 	});
 
 	$(':input:checkbox').on('click', function() { // geting img-responsive ID and SRC inserting to array
@@ -206,6 +205,7 @@ function download() { // preparing picutere for download and dowloading images
 	});
 
 	removeImgFromWerehouse(clicked); //inserting array to function
+
 
 
 	$('#download').on('click', function() { // sanding XMLHttpRequest for downloading picutes
@@ -265,8 +265,8 @@ function download() { // preparing picutere for download and dowloading images
 		http.send("obj=" + string);
 		$(':input:checkbox').prop('checked', false);
 		//$(this).data('clicked', true); // seting on download button clicked
-		images = {};  // cleaning array afther download
-		clicked = []; // cleaning array afther download		
+		images = {};
+		clicked = [];	
 	});
 }
 

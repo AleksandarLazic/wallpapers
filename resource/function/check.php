@@ -6,34 +6,36 @@ if(isset($_POST['obj']) && $_POST['obj']) {
 }
 
 function readyForDownload($obj) {
-	if (!file_exists("C:/xampp/htdocs/wp/download")) { //cheking if folder Download exsist
-    	mkdir("C:/xampp/htdocs/wp/download", 0777, true);
+	$filepath = dirname(__DIR__);
+	
+	if (!file_exists("{$filepath}/download")) { //cheking if folder Download exsist
+    	mkdir("{$filepath}/download", 0777, true);
 	}
 	$array = json_decode(stripslashes($obj)); // maiking from js object array
 	$result = array();
 	foreach ($array as $key => $value) { // converting stdClass object to php array
     	$result[] = $value->src;
-	}	
+	}
 
 	$order = "resource/images/";
 	$replace = "";
 
 	$dirName = mt_rand(); // making random intiger name for zipArchive
-	$filepath = "download/";
+	
 	
 	$zip = new ZipArchive;
-	$res = $zip->open("download/".$dirName.".zip", ZipArchive::CREATE);
+	if($zip->open("{$filepath}/download/{$dirName}.zip", ZipArchive::CREATE) === TRUE) {
 
-	if($res === true) {	
 		foreach ($result as $src) {
 				$name = str_ireplace($order, $replace, $src);
-				$zip->addfile($src, $name);
+				$zip->addFile($src, $name);
 		}
 		$zip->close();
 	}
 	
 $fileName = $dirName.".zip";
-$file='download/'.$fileName;
+$file ='../download/'.$fileName;
+
 
  // http headers for zip downloads
 header("Pragma: public");
